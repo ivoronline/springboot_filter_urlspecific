@@ -14,6 +14,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 public class MyFilter extends OncePerRequestFilter {
 
+  //@Autowired MyService myservice; //@Autowired only works if you inject Filter into Constructor
+
   //===================================================================
   // DO FILTER
   //===================================================================
