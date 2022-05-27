@@ -7,11 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-//@Order(0)  //Don't use this when using FilterRegistrationBean
+//@Order(1)  //Ignored when using FilterRegistrationBean
 @Component
 public class MyFilter extends OncePerRequestFilter {
 
@@ -21,7 +20,7 @@ public class MyFilter extends OncePerRequestFilter {
   @Override
   public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
     throws IOException, ServletException {
-    System.out.println("FILTER    : Hello from Filter");
+    System.out.println("FILTER1");
     chain.doFilter(request, response);
   }
 
@@ -29,13 +28,13 @@ public class MyFilter extends OncePerRequestFilter {
   // FILTER REGISTRATION BEAN
   //===================================================================
   @Bean
-  public FilterRegistrationBean<MyFilter> loggingFilter(){
+  public FilterRegistrationBean<MyFilter> myFilter1Bean(MyFilter myFilter) { //Inject Filter into Constructor
 
     //CREATE REGISTRATION BEAN
     FilterRegistrationBean<MyFilter> registrationBean = new FilterRegistrationBean<>();
-                                     registrationBean.setFilter(new MyFilter());
+                                     registrationBean.setFilter(myFilter);
                                      registrationBean.addUrlPatterns("/Filtered");
-                                     registrationBean.setOrder(0);  //Use this to order Filters
+                                     registrationBean.setOrder(1);              //Use this to order Filters
 
 
     //RETURN REGISTRATION BEAN
